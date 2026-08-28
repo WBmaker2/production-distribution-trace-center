@@ -1,0 +1,36 @@
+/* 필수 다음 행동 두 개(경로 추적하기, 전후 비교 확인)에만 gi-pulse를 쓴다 (계획 문서 10). */
+@keyframes gi-pulse-keyframes {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(29, 78, 216, 0);
+  }
+}
+
+.gi-pulse {
+  animation: gi-pulse-keyframes 1.8s ease-in-out infinite;
+}
+
+/* 축소 모션에서는 맥박을 없애고 3px 고정 외곽선과 필수 배지로 대체한다. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .gi-pulse {
+    animation-name: none;
+    animation-duration: 0s;
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
