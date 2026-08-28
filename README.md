@@ -50,7 +50,7 @@ npm run verify       # 위 전부를 순서대로 실행
 ## 출시 게이트 (아직 수행하지 않음)
 
 1. 교사·교과 검수자의 내용 검수 (`docs/content-review.md`)
-2. `npm run verify` 전체 통과
+2. `npm run verify` 전체 통과 — ✅ 2026-08-28 통과 (`docs/release-evidence.md`, `docs/qa/acceptance-checklist.md`)
 3. 사용자의 별도 출시 승인 뒤 원격 저장소 푸시와 GitHub Pages 배포
 4. 공개 앱 확인 뒤 HVC 등록
 
