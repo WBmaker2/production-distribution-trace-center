@@ -5,6 +5,7 @@ import "./styles/tokens.css";
 import "./styles/app.css";
 import "./styles/workbench.css";
 import "./styles/motion.css";
+import "./features/report/print.css";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {

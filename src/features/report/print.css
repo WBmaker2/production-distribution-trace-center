@@ -1,0 +1,55 @@
+/* 인쇄용 규칙 (계획 문서 6·11): A4 세로, 흰 배경, 검정 텍스트, 제어 버튼 숨김.
+   개인 식별 정보와 브라우저 메타데이터는 인쇄물에 포함되지 않는다. */
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 15mm;
+  }
+
+  html,
+  body {
+    background: #ffffff;
+    color: #000000;
+    font-size: 12pt;
+  }
+
+  .app-header,
+  .no-print,
+  .progress-steps,
+  .goal-card,
+  .entrance,
+  .feedback-panel {
+    display: none !important;
+  }
+
+  .app-main {
+    max-width: none;
+    padding: 0;
+  }
+
+  .main-heading {
+    font-size: 16pt;
+  }
+
+  .report-card {
+    break-inside: avoid;
+    border: 1pt solid #000000;
+    margin-bottom: 6mm;
+    padding: 4mm;
+  }
+
+  .report-card h3 {
+    font-size: 13pt;
+  }
+
+  .report-facts dt {
+    font-weight: 700;
+  }
+
+  a,
+  a:visited {
+    color: #000000;
+    text-decoration: none;
+  }
+}

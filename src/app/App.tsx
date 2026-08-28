@@ -8,6 +8,7 @@ import { UpdateHistoryDialog } from "../components/UpdateHistoryDialog";
 import { EntranceScreen } from "../features/route-trace/EntranceScreen";
 import { RouteWorkbench } from "../features/route-trace/RouteWorkbench";
 import { STEP_LABELS } from "../features/route-trace/stepLabels";
+import { LearningReport } from "../features/report/LearningReport";
 import { sessionFlowSteps } from "./sessionReducer";
 import {
   createInitialSessionState,
@@ -32,7 +33,6 @@ export function App() {
   }, [state.step, state.missionIndex]);
 
   const mission = currentMission(state);
-  const progress = state.progress[state.missionIndex]!;
   const headingText =
     state.step === "INTRO"
       ? "생산·유통 경로 추적소"
@@ -74,31 +74,7 @@ export function App() {
           {state.step !== "INTRO" && state.step !== "REPORT" && (
             <RouteWorkbench state={state} dispatch={dispatch} />
           )}
-          {state.step === "REPORT" && (
-            <section className="step-body" aria-label={`${mission.title} 유통 기록`}>
-              <div className="goal-card">
-                <h2>이 미션 기록</h2>
-                <p>
-                  {progress.finalDecision?.accepted
-                    ? "근거와 함께 경로가 연결됐어요."
-                    : "다시 정한 결과가 기록에 남았어요."}
-                </p>
-              </div>
-              <p className="step-hint">
-                {state.missionIndex + 1}번째 미션을 끝냈어요. 결과 기록 화면은 다음 단계에서
-                더 자세히 만나요.
-              </p>
-              <div className="step-nav">
-                {!state.finished && (
-                  <ActionButton variant="primary" onClick={() => dispatch({ type: "NEXT" })}>
-                    {state.missionIndex + 1 < state.progress.length
-                      ? "다음 미션 보기"
-                      : "전체 기록 마치기"}
-                  </ActionButton>
-                )}
-              </div>
-            </section>
-          )}
+          {state.step === "REPORT" && <LearningReport state={state} dispatch={dispatch} />}
         </main>
       </div>
       <UpdateHistoryDialog open={historyOpen} onClose={() => setHistoryOpen(false)} />
