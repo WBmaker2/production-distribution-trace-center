@@ -246,3 +246,59 @@
   margin: 0;
   font-size: 1.05rem;
 }
+
+/* 좁은 화면에서 표를 카드 행으로 바꾼다 (계획 문서 Task 8). */
+@media (max-width: 480px) {
+  .token-table {
+    display: block;
+    border: none;
+  }
+
+  .token-table thead {
+    display: none;
+  }
+
+  .token-table tbody,
+  .token-table tfoot,
+  .token-table tr {
+    display: block;
+  }
+
+  .token-table tr {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    padding: var(--space-2) var(--space-3);
+    margin-bottom: var(--space-2);
+  }
+
+  .token-table th {
+    display: block;
+    border: none;
+    padding: var(--space-1) 0;
+    font-weight: 700;
+  }
+
+  .token-table td {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    border: none;
+    padding: var(--space-1) 0;
+  }
+
+  .token-table td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: var(--color-ink-soft);
+  }
+
+  .token-table tfoot tr {
+    background: var(--color-primary-soft);
+    border-color: var(--color-primary);
+  }
+
+  .token-table tfoot td {
+    font-weight: 800;
+  }
+}

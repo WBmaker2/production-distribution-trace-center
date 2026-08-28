@@ -218,9 +218,9 @@ function TotalsTable({
               <th scope="row">
                 {STAGE_KIND_LABELS[node.kind]} · {node.label}
               </th>
-              <td>{formatToken(node.timeTokens)}</td>
-              <td>{formatToken(node.costTokens)}</td>
-              <td>{formatToken(node.lossTokens)}</td>
+              <td data-label="시간 토큰">{formatToken(node.timeTokens)}</td>
+              <td data-label="비용 토큰">{formatToken(node.costTokens)}</td>
+              <td data-label="잃음 토큰">{formatToken(node.lossTokens)}</td>
             </tr>
           );
         })}
@@ -228,9 +228,9 @@ function TotalsTable({
       <tfoot>
         <tr>
           <th scope="row">합계</th>
-          <td>{formatToken(totals.timeTokens)}</td>
-          <td>{formatToken(totals.costTokens)}</td>
-          <td>{formatToken(totals.lossTokens)}</td>
+          <td data-label="시간 토큰">{formatToken(totals.timeTokens)}</td>
+          <td data-label="비용 토큰">{formatToken(totals.costTokens)}</td>
+          <td data-label="잃음 토큰">{formatToken(totals.lossTokens)}</td>
         </tr>
       </tfoot>
     </table>
@@ -364,9 +364,9 @@ export function CompareStep({ mission, progress }: Omit<StepCommonProps, "dispat
           {rows.map((row) => (
             <tr key={row.label}>
               <th scope="row">{row.label}</th>
-              <td>{formatToken(row.before)}</td>
-              <td>{formatToken(row.after)}</td>
-              <td>{formatDiff(row.diff)}</td>
+              <td data-label="바꾸기 전">{formatToken(row.before)}</td>
+              <td data-label="바꾼 후">{formatToken(row.after)}</td>
+              <td data-label="변화">{formatDiff(row.diff)}</td>
             </tr>
           ))}
         </tbody>
