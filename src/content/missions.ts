@@ -1,4 +1,7 @@
 import type { RouteMission } from "../domain/types";
+import strawberryBoxImage from "../assets/generated/goods/strawberry-box.webp";
+import notebookImage from "../assets/generated/goods/notebook.webp";
+import packageBoxImage from "../assets/generated/goods/package-box.webp";
 import { assertValidContent } from "./validateContent";
 
 /**
@@ -45,6 +48,7 @@ export const missions: readonly RouteMission[] = [
     missingDataOptions: [],
     requiredDataKeys: [],
     sourceNote: "구현 계획 문서 4.1 고정 경로 fixture (route-strawberry-01), 2026-08-28",
+    image: { src: strawberryBoxImage, alt: "가상의 별빛 딸기 상자 일러스트" },
     reviewStatus: "approved",
     misconceptionGuard: "짧은 경로가 항상 더 좋다는 단정을 하지 않도록 안내한다.",
   },
@@ -91,6 +95,7 @@ export const missions: readonly RouteMission[] = [
     missingDataOptions: [],
     requiredDataKeys: [],
     sourceNote: "구현 계획 문서 4.1 고정 경로 fixture (route-notebook-02), 2026-08-28",
+    image: { src: notebookImage, alt: "가상의 재생 종이 공책 일러스트" },
     reviewStatus: "approved",
     misconceptionGuard: "비용 토큰만 보고 경로를 정하는 단정을 피하도록 안내한다.",
   },
@@ -208,6 +213,7 @@ export const missions: readonly RouteMission[] = [
     missingDataOptions: [],
     requiredDataKeys: [],
     sourceNote: "구현 계획 문서 4.1 고정 경로 fixture (route-package-04), 2026-08-28",
+    image: { src: packageBoxImage, alt: "가상의 큰 상자와 작은 상자 일러스트" },
     reviewStatus: "approved",
     misconceptionGuard: "한 조건의 개선이 다른 조건의 손해로 이어질 수 있음을 함께 기록하도록 안내한다.",
   },

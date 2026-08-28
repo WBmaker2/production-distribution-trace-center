@@ -117,6 +117,8 @@ export interface RouteMission {
   readonly sourceNote: string;
   readonly reviewStatus: "pending" | "approved";
   readonly misconceptionGuard: string;
+  /** 관찰 화면의 생성 일러스트. 이미지가 없어도 활동을 완주할 수 있어야 한다 (계획 문서 10). */
+  readonly image?: { readonly src: string; readonly alt: string };
 }
 
 export interface RouteEvaluation {

@@ -1,5 +1,6 @@
 import { missions } from "../../content/missions";
 import { ActionButton } from "../../components/ActionButton";
+import routeMapImage from "../../assets/generated/fictional-goods-route-map.webp";
 
 interface EntranceScreenProps {
   readonly onStart: () => void;
@@ -8,6 +9,13 @@ interface EntranceScreenProps {
 export function EntranceScreen({ onStart }: EntranceScreenProps) {
   return (
     <section className="entrance" aria-label="학습 소개">
+      <img
+        className="scene-image"
+        src={routeMapImage}
+        alt="가상 마을의 생산·유통 경로 일러스트: 농원과 공장, 트럭, 가게가 점선 경로로 이어져 있어요"
+        width="800"
+        height="450"
+      />
       <p className="entrance-lead">
         상품이 우리 손에 오기까지 여러 단계를 지나가요.{" "}
         <strong>생산·가공·운송·판매·소비 단계</strong>를 연결하고, 한 조건이 바뀔 때

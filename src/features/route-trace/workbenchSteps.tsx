@@ -55,6 +55,16 @@ export function ObserveStep({ mission }: { mission: RouteMission }) {
   return (
     <div className="observe-step">
       <p className="scene-text">{mission.scene}</p>
+      {mission.image && (
+        <img
+          className="goods-image"
+          src={mission.image.src}
+          alt={mission.image.alt}
+          width="240"
+          height="180"
+          loading="lazy"
+        />
+      )}
       <ul className="stage-cards">
         {mission.nodes.map((node) => (
           <li key={node.id} className="stage-card">
