@@ -6,25 +6,15 @@ import { ProgressSteps } from "../components/ProgressSteps";
 import { UpdateHistoryButton } from "../components/UpdateHistoryButton";
 import { UpdateHistoryDialog } from "../components/UpdateHistoryDialog";
 import { EntranceScreen } from "../features/route-trace/EntranceScreen";
-import type { SessionStep } from "../domain/types";
+import { RouteWorkbench } from "../features/route-trace/RouteWorkbench";
+import { STEP_LABELS } from "../features/route-trace/stepLabels";
+import { sessionFlowSteps } from "./sessionReducer";
 import {
   createInitialSessionState,
   currentMission,
-  sessionFlowSteps,
   sessionReducer,
 } from "./sessionReducer";
 import { ErrorBoundary } from "./ErrorBoundary";
-
-export const STEP_LABELS: Readonly<Record<SessionStep, string>> = {
-  INTRO: "입구",
-  OBSERVE: "단계 관찰",
-  ORDER: "경로 조립",
-  BASELINE: "기본 경로",
-  CHANGE_ONE: "조건 변경",
-  COMPARE: "전후 비교",
-  DECIDE: "판단",
-  REPORT: "유통 기록",
-};
 
 export function App() {
   const [state, dispatch] = useReducer(sessionReducer, undefined, createInitialSessionState);
@@ -57,30 +47,6 @@ export function App() {
     { key: "REPORT", label: STEP_LABELS.REPORT, current: state.step === "REPORT" },
   ];
 
-  const nextLabel =
-    state.step === "OBSERVE"
-      ? "단계 배열하기"
-      : state.step === "ORDER"
-        ? "기본 경로 보기"
-        : state.step === "BASELINE"
-          ? mission.conditionChanges.length > 0
-            ? "조건 바꾸기"
-            : "판단하기"
-          : state.step === "CHANGE_ONE"
-            ? "전후 비교 확인"
-            : state.step === "COMPARE"
-              ? "판단하기"
-              : "다음 미션 보기";
-
-  const canGoNext =
-    state.step === "ORDER"
-      ? progress.connectionCheck?.valid === true
-      : state.step === "CHANGE_ONE"
-        ? progress.changeConfirmed
-        : true;
-
-  const showNextButton = !(state.step === "REPORT" && state.finished);
-
   return (
     <ErrorBoundary onReset={() => dispatch({ type: "CONFIRM_RESTART" })}>
       <div className="app-shell">
@@ -103,41 +69,31 @@ export function App() {
           <h1 ref={mainHeadingRef} tabIndex={-1} className="main-heading">
             {headingText}
           </h1>
-          {state.step === "INTRO" ? (
-            <EntranceScreen onStart={() => dispatch({ type: "START" })} />
-          ) : (
-            <section className="step-body" aria-label={`${mission.title} ${STEP_LABELS[state.step]}`}>
-              <ProgressSteps items={flowItems} />
+          {state.step === "INTRO" && <EntranceScreen onStart={() => dispatch({ type: "START" })} />}
+          {state.step !== "INTRO" && <ProgressSteps items={flowItems} />}
+          {state.step !== "INTRO" && state.step !== "REPORT" && (
+            <RouteWorkbench state={state} dispatch={dispatch} />
+          )}
+          {state.step === "REPORT" && (
+            <section className="step-body" aria-label={`${mission.title} 유통 기록`}>
               <div className="goal-card">
-                <h2>목표 카드</h2>
-                <p>{mission.goal.statement}</p>
+                <h2>이 미션 기록</h2>
+                <p>
+                  {progress.finalDecision?.accepted
+                    ? "근거와 함께 경로가 연결됐어요."
+                    : "다시 정한 결과가 기록에 남았어요."}
+                </p>
               </div>
               <p className="step-hint">
-                {state.step === "OBSERVE" &&
-                  "상품과 각 단계의 역할을 읽고, 어떤 차례로 일이 일어날지 생각해 보아요."}
-                {state.step === "ORDER" && "단계 카드를 차례로 눌러 경로를 만들고 연결 검사를 해 보아요."}
-                {state.step === "BASELINE" && "만든 경로의 시간·비용·잃음 토큰을 확인해 보아요."}
-                {state.step === "CHANGE_ONE" && "검수된 조건 중 한 가지만 골라 바꿔 보아요."}
-                {state.step === "COMPARE" && "바뀌기 전과 후의 토큰을 비교해 무엇이 달라졌는지 말해 보아요."}
-                {state.step === "DECIDE" && "근거를 고르고 경로를 판단해 보아요."}
-                {state.step === "REPORT" && "지금까지의 유통 기록을 확인해 보아요."}
+                {state.missionIndex + 1}번째 미션을 끝냈어요. 결과 기록 화면은 다음 단계에서
+                더 자세히 만나요.
               </p>
               <div className="step-nav">
-                <ActionButton
-                  variant="secondary"
-                  onClick={() => dispatch({ type: "BACK" })}
-                  disabled={state.step === "REPORT"}
-                >
-                  뒤로 가기
-                </ActionButton>
-                {showNextButton && (
-                  <ActionButton
-                    variant="primary"
-                    pulse={state.step === "CHANGE_ONE"}
-                    onClick={() => dispatch({ type: "NEXT" })}
-                    disabled={!canGoNext}
-                  >
-                    {nextLabel}
+                {!state.finished && (
+                  <ActionButton variant="primary" onClick={() => dispatch({ type: "NEXT" })}>
+                    {state.missionIndex + 1 < state.progress.length
+                      ? "다음 미션 보기"
+                      : "전체 기록 마치기"}
                   </ActionButton>
                 )}
               </div>
