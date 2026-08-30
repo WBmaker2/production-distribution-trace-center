@@ -65,6 +65,11 @@ export function ObserveStep({ mission }: { mission: RouteMission }) {
           loading="lazy"
         />
       )}
+      <ul className="token-legend" aria-label="토큰 범례">
+        <li><strong>시간</strong> 단계가 걸리는 정도</li>
+        <li><strong>비용</strong> 드는 정도</li>
+        <li><strong>잃음</strong> 줄어드는 정도</li>
+      </ul>
       <ul className="stage-cards">
         {mission.nodes.map((node) => (
           <li key={node.id} className="stage-card">
@@ -92,68 +97,74 @@ export function OrderStep({ mission, progress, dispatch }: StepCommonProps) {
 
   return (
     <div className="order-step">
-      <h3>만든 경로</h3>
-      {progress.assembledNodeIds.length === 0 ? (
-        <p>아래 카드를 차례로 눌러 경로를 만들어 보아요.</p>
-      ) : (
-        <ol className="assembled-route">
-          {progress.assembledNodeIds.map((nodeId, index) => {
-            const node = nodeById.get(nodeId)!;
-            return (
-              <li key={nodeId} className="assembled-item">
-                <span className="assembled-label">
-                  {index + 1}. {STAGE_KIND_LABELS[node.kind]} · {node.label}
-                </span>
-                <span className="assembled-actions">
-                  <button
-                    type="button"
-                    className="mini-button"
-                    aria-label={`${node.label} 위로 옮기기`}
-                    disabled={index === 0}
-                    onClick={() => dispatch({ type: "MOVE_CARD", index, direction: "up" })}
-                  >
-                    위로
-                  </button>
-                  <button
-                    type="button"
-                    className="mini-button"
-                    aria-label={`${node.label} 아래로 옮기기`}
-                    disabled={index === progress.assembledNodeIds.length - 1}
-                    onClick={() => dispatch({ type: "MOVE_CARD", index, direction: "down" })}
-                  >
-                    아래로
-                  </button>
-                  <button
-                    type="button"
-                    className="mini-button"
-                    aria-label={`${node.label} 경로에서 빼기`}
-                    onClick={() => dispatch({ type: "REMOVE_CARD", index })}
-                  >
-                    빼기
-                  </button>
-                </span>
-              </li>
-            );
-          })}
-        </ol>
-      )}
+      <div className="order-layout">
+        <section className="order-panel route-panel" aria-labelledby="assembled-route-title">
+          <h3 id="assembled-route-title">만든 경로</h3>
+          {progress.assembledNodeIds.length === 0 ? (
+            <p>아래 카드를 차례로 눌러 경로를 만들어 보아요.</p>
+          ) : (
+            <ol className="assembled-route">
+              {progress.assembledNodeIds.map((nodeId, index) => {
+                const node = nodeById.get(nodeId)!;
+                return (
+                  <li key={nodeId} className="assembled-item">
+                    <span className="assembled-label">
+                      {index + 1}. {STAGE_KIND_LABELS[node.kind]} · {node.label}
+                    </span>
+                    <span className="assembled-actions">
+                      <button
+                        type="button"
+                        className="mini-button"
+                        aria-label={`${node.label} 위로 옮기기`}
+                        disabled={index === 0}
+                        onClick={() => dispatch({ type: "MOVE_CARD", index, direction: "up" })}
+                      >
+                        위로
+                      </button>
+                      <button
+                        type="button"
+                        className="mini-button"
+                        aria-label={`${node.label} 아래로 옮기기`}
+                        disabled={index === progress.assembledNodeIds.length - 1}
+                        onClick={() => dispatch({ type: "MOVE_CARD", index, direction: "down" })}
+                      >
+                        아래로
+                      </button>
+                      <button
+                        type="button"
+                        className="mini-button"
+                        aria-label={`${node.label} 경로에서 빼기`}
+                        onClick={() => dispatch({ type: "REMOVE_CARD", index })}
+                      >
+                        빼기
+                      </button>
+                    </span>
+                  </li>
+                );
+              })}
+            </ol>
+          )}
 
-      <h3>남은 단계 카드</h3>
-      <ul className="card-pool">
-        {pool.map((node) => (
-          <li key={node.id}>
-            <button
-              type="button"
-              className="pool-card"
-              aria-label={`경로에 넣기: ${node.label}`}
-              onClick={() => dispatch({ type: "APPEND_CARD", nodeId: node.id })}
-            >
-              <span className="stage-kind">{STAGE_KIND_LABELS[node.kind]}</span>
-              {node.label}
-            </button>
-          </li>
-        ))}
-      </ul>
+        </section>
+        <section className="order-panel pool-panel" aria-labelledby="card-pool-title">
+          <h3 id="card-pool-title">남은 단계 카드</h3>
+          <ul className="card-pool">
+            {pool.map((node) => (
+              <li key={node.id}>
+                <button
+                  type="button"
+                  className="pool-card"
+                  aria-label={`경로에 넣기: ${node.label}`}
+                  onClick={() => dispatch({ type: "APPEND_CARD", nodeId: node.id })}
+                >
+                  <span className="stage-kind">{STAGE_KIND_LABELS[node.kind]}</span>
+                  {node.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
 
       <div className="check-row">
         <ActionButton variant="secondary" onClick={() => dispatch({ type: "CHECK_CONNECTION" })}>

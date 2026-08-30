@@ -2,6 +2,7 @@ interface ProgressItem {
   readonly key: string;
   readonly label: string;
   readonly current: boolean;
+  readonly completed?: boolean;
 }
 
 interface ProgressStepsProps {
@@ -14,10 +15,24 @@ export function ProgressSteps({ items }: ProgressStepsProps) {
       {items.map((item) => (
         <li
           key={item.key}
-          className={item.current ? "progress-step current" : "progress-step"}
+          className={[
+            "progress-step",
+            item.current ? "current" : "",
+            item.completed ? "completed" : "",
+          ]
+            .filter(Boolean)
+            .join(" ")}
           aria-current={item.current ? "step" : undefined}
+          aria-label={
+            item.label +
+            ", " +
+            (item.current ? "현재 단계" : item.completed ? "완료" : "남은 단계")
+          }
         >
-          {item.label}
+          <span className="progress-label">{item.label}</span>
+          <span className="progress-status">
+            {item.current ? "현재 단계" : item.completed ? "완료" : "남은 단계"}
+          </span>
         </li>
       ))}
     </ol>

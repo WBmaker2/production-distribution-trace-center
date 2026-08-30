@@ -12,6 +12,10 @@ describe("App 셸", () => {
     render(<App />);
     expect(screen.getByRole("heading", { level: 1, name: "생산·유통 경로 추적소" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "경로 추적하기" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "본문으로 건너뛰기" })).toHaveAttribute(
+      "href",
+      "#main",
+    );
   });
 
   it("시작하면 첫 미션 단계 화면으로 가고 큰 제목에 초점을 옮긴다", async () => {
@@ -22,6 +26,11 @@ describe("App 셸", () => {
     expect(heading).toHaveTextContent("별빛 딸기 상자");
     expect(heading).toHaveTextContent("단계 관찰");
     expect(document.activeElement).toBe(heading);
+    expect(screen.getByRole("listitem", { name: "단계 관찰, 현재 단계" })).toHaveAttribute(
+      "aria-current",
+      "step",
+    );
+    expect(screen.getAllByText("남은 단계").length).toBeGreaterThan(0);
   });
 
   it("머리말에서 업데이트 내역 대화상자를 열고 닫을 수 있다", async () => {

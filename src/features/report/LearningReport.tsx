@@ -122,9 +122,12 @@ export function LearningReport({ state, dispatch }: LearningReportProps) {
   const mission = currentMission(state);
   return (
     <section className="learning-report" aria-label={`${mission.title} 유통 기록`}>
-      <p className="step-hint">
-        채점하지 않아요. 최초 판단과 근거, 수정 결과를 함께 보여 주어요.
-      </p>
+      <header className="report-intro">
+        <h2>판단의 흔적</h2>
+        <p className="step-hint">
+          채점하지 않아요. 최초 판단과 근거, 수정 결과를 함께 보여 주어요.
+        </p>
+      </header>
       <ol className="report-list">
         {state.progress.map((progress, index) => (
           <ReportCard key={missions[index]!.id} missionIndex={index} progress={progress} />

@@ -26,9 +26,9 @@ export function App() {
     if (state.step === "INTRO") return;
     const heading = mainHeadingRef.current;
     if (!heading) return;
-    heading.focus();
+    heading.focus({ preventScroll: true });
     if (typeof heading.scrollIntoView === "function") {
-      heading.scrollIntoView();
+      heading.scrollIntoView({ block: "start", behavior: "auto" });
     }
   }, [state.step, state.missionIndex]);
 
@@ -38,31 +38,43 @@ export function App() {
       ? "생산·유통 경로 추적소"
       : `${mission.title} · ${STEP_LABELS[state.step]}`;
 
-  const flowItems = [
-    ...sessionFlowSteps(mission).map((step) => ({
-      key: step,
-      label: STEP_LABELS[step],
-      current: step === state.step,
-    })),
-    { key: "REPORT", label: STEP_LABELS.REPORT, current: state.step === "REPORT" },
-  ];
+  const flowKeys = [...sessionFlowSteps(mission), "REPORT" as const];
+  const currentFlowIndex = flowKeys.indexOf(state.step);
+  const flowItems = flowKeys.map((step, index) => ({
+    key: step,
+    label: STEP_LABELS[step],
+    current: step === state.step,
+    completed: index < currentFlowIndex,
+  }));
 
   return (
     <ErrorBoundary onReset={() => dispatch({ type: "CONFIRM_RESTART" })}>
       <div className="app-shell">
+        <a className="skip-link" href="#main">
+          본문으로 건너뛰기
+        </a>
         <header className="app-header">
-          <p className="app-brand">생산·유통 경로 추적소</p>
-          <div className="app-tools">
-            <AccessibilityToolbar />
-            <UpdateHistoryButton onClick={() => setHistoryOpen(true)} />
-            {state.step !== "INTRO" && (
-              <ActionButton
-                variant="ghost"
-                onClick={() => dispatch({ type: "REQUEST_RESTART" })}
-              >
-                처음부터 다시 하기
-              </ActionButton>
-            )}
+          <div className="app-header-inner">
+            <div className="app-brand-lockup">
+              <p className="app-brand">생산·유통 경로 추적소</p>
+              {state.step !== "INTRO" && (
+                <p className="app-context">
+                  {mission.title} <span aria-hidden="true">·</span> {STEP_LABELS[state.step]}
+                </p>
+              )}
+            </div>
+            <div className="app-tools">
+              <AccessibilityToolbar />
+              <UpdateHistoryButton onClick={() => setHistoryOpen(true)} />
+              {state.step !== "INTRO" && (
+                <ActionButton
+                  variant="ghost"
+                  onClick={() => dispatch({ type: "REQUEST_RESTART" })}
+                >
+                  처음부터 다시 하기
+                </ActionButton>
+              )}
+            </div>
           </div>
         </header>
         <main className="app-main" id="main">

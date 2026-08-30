@@ -1,37 +1,33 @@
 :root {
   color-scheme: light;
 
-  /* 밝은 교실용 라이트 모드 고정 (계획 문서 6) */
-  --color-bg: #f2f6fb;
-  --color-surface: #ffffff;
-  --color-surface-soft: #eef3fa;
-  --color-ink: #1c2733;
-  --color-ink-soft: #47586b;
-  --color-primary: #1d4ed8;
-  --color-primary-soft: #dfe9ff;
-  --color-accent: #0f766e;
-  --color-accent-soft: #d8f2ee;
-  --color-danger: #b42318;
-  --color-warning: #b45309;
+  --color-bg: #f6f3eb;
+  --color-surface: #fffdf8;
+  --color-surface-raised: #ffffff;
+  --color-surface-muted: #eaf1ee;
+  --color-surface-soft: #eaf1ee;
+  --color-warning-soft: #fdf3e7;
+  --color-ink: #172b2b;
+  --color-ink-soft: #49605d;
+  --color-primary: #1c5a57;
+  --color-primary-strong: #124441;
+  --color-primary-soft: #ddede8;
+  --color-accent: #d45c36;
+  --color-accent-strong: #9f3f25;
+  --color-accent-soft: #f8e4d9;
+  --color-time: #1e5aa8;
+  --color-cost: #8a4b08;
+  --color-loss: #a43d38;
+  --color-success: #206a52;
+  --color-warning: #86520a;
+  --color-danger: #a43d38;
+  --color-border: #c7d7d2;
+  --color-border-strong: #8eb4aa;
+  --color-focus: #0b5964;
+  --color-accent-rgb: 212, 92, 54;
 
-  /* 토큰 종류별 색 (색만으로 구분하지 않고 라벨을 함께 쓴다) */
-  --color-time: #1d4ed8;
-  --color-cost: #b45309;
-  --color-loss: #b42318;
-
-  --color-border: #c6d3e2;
-  --color-focus: #0b57d0;
-
-  --radius-lg: 18px;
-  --radius-md: 12px;
-  --radius-pill: 999px;
-
-  --shadow-soft: 0 10px 28px rgba(28, 39, 51, 0.1);
-
-  --font-body:
-    "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, -apple-system,
-    sans-serif;
-
+  --font-body: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui,
+    -apple-system, sans-serif;
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -39,6 +35,20 @@
   --space-5: 1.5rem;
   --space-6: 2rem;
   --space-7: 3rem;
-
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+  --shadow-card: 0 8px 22px rgba(23, 43, 43, 0.07);
+  --shadow-board: 0 14px 34px rgba(23, 43, 43, 0.1);
+  --shadow-header: 0 3px 16px rgba(23, 43, 43, 0.05);
+  --shadow-modal: 0 18px 42px rgba(23, 43, 43, 0.16);
+  --motion-fast: 160ms;
+  --motion-standard: 220ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --header-height: 72px;
+  --header-offset: 96px;
   --touch-target: 44px;
+  --z-header: 20;
+  --z-modal: 100;
 }

@@ -26,7 +26,7 @@ describe("UpdateHistoryDialog", () => {
     render(<UpdateHistoryDialog open={true} onClose={() => {}} />);
     const items = screen.getAllByRole("listitem");
     expect(items.length).toBeGreaterThan(0);
-    expect(items[0]?.textContent).toContain("2026-08-28");
+    expect(items[0]?.textContent).toContain("2026-08-30");
     expect(screen.getByText("구현 계획 확정")).toBeInTheDocument();
   });
 

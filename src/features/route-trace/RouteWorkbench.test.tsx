@@ -66,6 +66,10 @@ describe("RouteWorkbench — 관찰 단계", () => {
   it("단계별 토큰을 보여 주고 자료 없음을 0으로 표시하지 않는다", () => {
     render(<Harness initial={delayObserveState()} />);
     expect(screen.getByText("트럭이 다리를 지나 가요")).toBeInTheDocument();
+    expect(
+      screen.getByText("상품이 어느 단계에서 무엇을 하는지 살펴보고, 토큰의 뜻을 읽어 보세요."),
+    ).toBeInTheDocument();
+    expect(screen.getByText("활동 보드")).toBeInTheDocument();
     expect(screen.getByText("자료 없음")).toBeInTheDocument();
     expect(screen.queryByText("비용 0")).not.toBeInTheDocument();
   });

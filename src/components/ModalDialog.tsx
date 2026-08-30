@@ -12,6 +12,7 @@ const FOCUSABLE_SELECTOR =
 
 export function ModalDialog({ open, title, onClose, children }: ModalDialogProps) {
   const titleId = useId();
+  const descriptionId = useId();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const restoreRef = useRef<HTMLElement | null>(null);
 
@@ -68,6 +69,7 @@ export function ModalDialog({ open, title, onClose, children }: ModalDialogProps
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
+        aria-describedby={descriptionId}
         className="modal-card"
         tabIndex={-1}
         onKeyDown={handleKeyDown}
@@ -78,7 +80,7 @@ export function ModalDialog({ open, title, onClose, children }: ModalDialogProps
             닫기
           </button>
         </div>
-        <div className="modal-body">{children}</div>
+        <div id={descriptionId} className="modal-body">{children}</div>
       </div>
     </div>
   );

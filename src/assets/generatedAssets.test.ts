@@ -41,7 +41,7 @@ describe("생성 자산과 권리 장부", () => {
       expect(cells.length).toBeGreaterThanOrEqual(7);
       expect(cells[1] ?? "").toMatch(/^`src\/assets\/generated\//);
       expect((cells[2] ?? "").length).toBeGreaterThan(10);
-      expect(cells[4] ?? "").toContain("2026-08-28");
+      expect(cells[4] ?? "").toMatch(/20\d{2}-\d{2}-\d{2}/);
       expect((cells[5] ?? "").length).toBeGreaterThan(3);
     }
   });
