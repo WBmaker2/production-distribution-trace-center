@@ -47,11 +47,12 @@ npm run verify       # 위 전부를 순서대로 실행
 - 알 수 없는 비용(null)은 0으로 계산하거나 표시하지 않고 "자료 없음"으로 유지합니다.
 - 다크 모드 없음(밝은 교실용 고정), VoiceOver 구현·검증은 범위에서 제외.
 
-## 출시 게이트 (아직 수행하지 않음)
+## 출시 게이트 상태 (2026-08-30)
 
-1. 교사·교과 검수자의 내용 검수 (`docs/content-review.md`)
-2. `npm run verify` 전체 통과 — ✅ 2026-08-28 통과 (`docs/release-evidence.md`, `docs/qa/acceptance-checklist.md`)
-3. 사용자의 별도 출시 승인 뒤 원격 저장소 푸시와 GitHub Pages 배포
-4. 공개 앱 확인 뒤 HVC 등록
+1. 교사·교과 검수자의 내용 검수 — ⬜ 대기 (`docs/content-review.md`)
+2. GitHub Actions `npm run verify` — ✅ [CI 실행 결과](https://github.com/WBmaker2/production-distribution-trace-center/actions/runs/33294973292)
+3. 원격 저장소 푸시와 GitHub Pages 배포 — ✅ [Pages 실행 결과](https://github.com/WBmaker2/production-distribution-trace-center/actions/runs/33294973283)
+4. 공개 앱 확인 — ✅ [생산·유통 경로 추적소 열기](https://wbmaker2.github.io/production-distribution-trace-center/)
+5. HVC 등록 — ⬜ 별도 단계
 
-자동 검사 통과는 사람 검수·출시 승인·배포 완료를 의미하지 않습니다.
+공개 배포와 자동 검사 통과는 사람 검수·교과 승인·HVC 등록 완료를 의미하지 않습니다.

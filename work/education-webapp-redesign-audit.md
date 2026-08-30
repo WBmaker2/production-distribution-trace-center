@@ -138,9 +138,16 @@
 - Impeccable detector의 초기 좌측 색상 탭 경고 4건은 상단 신호선으로 수정했습니다. detector는 지침에 따라 변경 후 1회만 실행했습니다.
 - VoiceOver와 교사·교과 콘텐츠 검수는 프로젝트 범위 밖의 후속 사람 검수입니다.
 
-## 다음 단계
+## 공개 배포 확인 (2026-08-30)
 
-1. 이 감사의 P1/P2를 `work/education-webapp-redesign-plan.md` 수용 기준에 반영합니다.
-2. `design-system/MASTER.md`에 교실 유통 관찰 보드의 토큰·컴포넌트·반응형 규칙을 기록합니다.
-3. 기존 콘텐츠/판정/세션을 건드리지 않고 셸 → 입구 → 단계 화면 → 결과 화면 순으로 구현합니다.
-4. 구현 완료 후 같은 학습자 여정과 320/375/768/1280px을 다시 감사하고, 이 문서에 최종 결과를 추가합니다.
+- 저장소: [WBmaker2/production-distribution-trace-center](https://github.com/WBmaker2/production-distribution-trace-center)
+- CI: [33294973292](https://github.com/WBmaker2/production-distribution-trace-center/actions/runs/33294973292) 성공
+- Pages: [33294973283](https://github.com/WBmaker2/production-distribution-trace-center/actions/runs/33294973283) 성공
+- 공개 URL: [생산·유통 경로 추적소](https://wbmaker2.github.io/production-distribution-trace-center/)
+- 공개 smoke: HTTP 200, 제목·favicon·JS/CSS/WebP 200, 콘솔 오류 0건, 375px 가로 넘침 없음, 시작 CTA → 첫 단계 전환 확인
+
+## 남은 후속 검수
+
+1. 교사·교과 담당자가 `docs/content-review.md`의 용어·문장·가치 판단 문구를 확인합니다.
+2. 실제 Safari·태블릿 환경과 보조공학 검수는 별도 증거로 남깁니다. VoiceOver 구현·검증은 프로젝트 범위에서 제외했습니다.
+3. HVC 등록과 갤러리 동기화는 공개 확인 이후 별도 승인 단계입니다.

@@ -5,7 +5,7 @@
 - 대상: `production-distribution-trace-center`
 - 실행일: 2026-08-30
 - 방향: **교실의 유통 관찰 보드** — 따뜻한 종이 바탕, 짙은 잉크색, 청록 경로, 절제된 주황 행동 신호
-- 커밋·푸시·배포·HVC 등록: 수행하지 않음
+- 커밋·푸시·배포: 완료 (2026-08-30); HVC 등록: 수행하지 않음
 - VoiceOver 구현·검증: 수행하지 않음
 
 ## 먼저 확인한 규칙과 계획
@@ -26,6 +26,7 @@
 - `src/styles/tokens.css`, `src/styles/app.css`, `src/styles/workbench.css`, `src/styles/motion.css`: 라이트 전용 교실 보드 스타일, 320px 대응, hover/active/focus/disabled, reduced-motion
 - `src/update/updateHistory.ts`: `2026-08-30 교실 유통 관찰 보드 전체 리디자인` 추가
 - `src/assets/generated/fictional-goods-route-map-v2.webp`: 이미지 생성 모델로 만든 로컬 개념 이미지. 원본은 유지하고 `docs/image-rights-ledger.md`, `work/education-webapp-redesign-assets.md`에 프롬프트·제작일·사용 위치·롤백을 기록했습니다.
+- `playwright.config.ts`: CI preview 서버가 `127.0.0.1`에서 확인되도록 host를 명시했습니다.
 
 학습 reducer, route evaluator, 고정 미션 데이터, 개인정보·무저장·무네트워크 경계는 변경하지 않았습니다. `gi-pulse`는 `경로 추적하기`와 `전후 비교 확인` 두 CTA에만 유지했습니다.
 
@@ -41,6 +42,8 @@
 | `npm run build` | 통과; Pages base 경로 유지 |
 | `npm run test:release` | 6개 통과 |
 | `npx playwright test --workers=1` | desktop/mobile 포함 16개 통과 |
+| GitHub Actions `npm run verify` | [33294973292](https://github.com/WBmaker2/production-distribution-trace-center/actions/runs/33294973292) 성공 |
+| GitHub Pages 배포 | [33294973283](https://github.com/WBmaker2/production-distribution-trace-center/actions/runs/33294973283) 성공 |
 
 병렬 `npm run verify` 재실행은 macOS Chromium의 `MachPortRendezvous ... Permission denied (SIGTRAP)`로 브라우저 프로세스가 시작되지 않아 종료되었습니다. 같은 최종 코드로 단일 worker E2E 16/16을 통과했으므로 환경 장애와 코드 assertion 실패를 분리해 기록합니다.
 
@@ -52,12 +55,23 @@
 - 큰 글자 설정을 320/375px에서 켠 뒤에도 가로 넘침 없이 CTA가 보였습니다.
 - 최종 이미지가 `1000×563`으로 로드되고 브라우저 page error/console error가 없었습니다.
 - 전체 학습자 여정, 키보드 조작, 오답 수정, 자료 없음, 조건 변화, 인쇄 진입은 E2E로 확인했습니다.
+- 공개 Pages에서도 제목·favicon·해시 JS/CSS·WebP가 모두 200으로 로드되고, 375px에서 가로 넘침 없이 `경로 추적하기`에서 `별빛 딸기 상자 · 단계 관찰`로 전환되는 것을 확인했습니다.
 
 ## 남은 사람 검수
 
 - 교사·교과 담당자의 문구/학습 적절성 확인은 자동 검증과 분리된 후속 검수입니다.
 - VoiceOver 검증은 요청 범위와 프로젝트 규칙에 따라 제외했습니다.
-- Safari/실제 기기/실제 배포 URL 검증은 아직 배포하지 않았으므로 완료로 표시하지 않습니다.
+- 공개 Pages URL의 브라우저 smoke 검증은 완료했지만, Safari·실제 기기·교사/교과 검수는 별도 후속 증거입니다.
+
+## 커밋·푸시·배포 결과 (2026-08-30)
+
+- 저장소: [WBmaker2/production-distribution-trace-center](https://github.com/WBmaker2/production-distribution-trace-center)
+- 리디자인 커밋: `632707830c36e165c53a755194551254884d91ac`
+- CI 보강 커밋: `ff039da22221e4d03fd87ec3effdb839831a1ea0`
+- CI: [GitHub Actions 33294973292](https://github.com/WBmaker2/production-distribution-trace-center/actions/runs/33294973292) 성공
+- Pages: [GitHub Actions 33294973283](https://github.com/WBmaker2/production-distribution-trace-center/actions/runs/33294973283) 성공
+- 공개 결과: [생산·유통 경로 추적소](https://wbmaker2.github.io/production-distribution-trace-center/)
+- 사람 검수·VoiceOver·HVC 등록은 수행하지 않았습니다. VoiceOver는 프로젝트 범위에서 제외했고, 교사·교과 검수와 HVC는 별도 단계입니다.
 
 ## 롤백
 

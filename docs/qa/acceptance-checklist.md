@@ -56,7 +56,8 @@
 
 | 게이트 | 상태 |
 |---|---|
-| 자동 검증 (`npm run verify`) | ✅ 통과 |
+| 자동 검증 (`npm run verify`) | ✅ [GitHub Actions 33294973292](https://github.com/WBmaker2/production-distribution-trace-center/actions/runs/33294973292) 통과 |
 | 사람 검수 (교사·교과 검수자) | ⬜ 대기 |
-| 사용자 출시 승인 (원격 저장소 푸시·Pages 배포) | ⬜ 대기 |
+| 사용자 출시 승인 (원격 저장소 푸시·Pages 배포) | ✅ 사용자 요청으로 완료 |
+| 공개 URL 확인 | ✅ [Pages 앱](https://wbmaker2.github.io/production-distribution-trace-center/) smoke 확인 |
 | 공개 URL 확인 후 HVC 등록 | ⬜ 대기 |
