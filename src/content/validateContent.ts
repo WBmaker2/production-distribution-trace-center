@@ -140,7 +140,7 @@ export function validateMission(mission: RouteMission): readonly string[] {
       errors.push(`비용 토큰이 0 이상의 정수 또는 자료 없음이 아닙니다: ${id} ${node.id}`);
     }
     if (!isNonNegativeIntegerOrEmpty(node.lossTokens)) {
-      errors.push(`잃음 토큰이 0 이상의 정수 또는 자료 없음이 아닙니다: ${id} ${node.id}`);
+      errors.push(`손실 토큰이 0 이상의 정수 또는 자료 없음이 아닙니다: ${id} ${node.id}`);
     }
     if (node.label.trim().length === 0) errors.push(`단계 설명이 비어 있습니다: ${id} ${node.id}`);
   }
@@ -160,7 +160,7 @@ export function validateMission(mission: RouteMission): readonly string[] {
       errors.push(`비용 토큰이 0 이상의 정수 또는 자료 없음이 아닙니다: ${id} ${edge.id}`);
     }
     if (!isNonNegativeIntegerOrEmpty(edge.lossTokens)) {
-      errors.push(`잃음 토큰이 0 이상의 정수 또는 자료 없음이 아닙니다: ${id} ${edge.id}`);
+      errors.push(`손실 토큰이 0 이상의 정수 또는 자료 없음이 아닙니다: ${id} ${edge.id}`);
     }
   }
 

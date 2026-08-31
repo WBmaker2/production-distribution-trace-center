@@ -333,6 +333,8 @@ export function sessionReducer(state: SessionState, action: SessionAction): Sess
       return updateCurrentProgress({ ...state, step: "ORDER" }, (current) => ({
         ...current,
         revisionUsed: true,
+        selectedEvidenceKeys: [],
+        selectedDataKeys: [],
       }));
     }
 

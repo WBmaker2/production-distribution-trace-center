@@ -75,6 +75,34 @@ function notebookReportState(): SessionState {
   return state;
 }
 
+function finishedReportState(): SessionState {
+  let state = createInitialSessionState();
+  const plans = [
+    { routeId: "farm>sort>truck>store", evidenceKeys: ["stage-order-reason"] },
+    { routeId: "raw-paper>factory>warehouse-a>stationery", evidenceKeys: ["warehouse-tradeoff"] },
+    {
+      routeId: "producer>truck>shop",
+      changeId: "bridge-check",
+      evidenceKeys: ["time-propagates", "cost-still-unknown"],
+    },
+    {
+      routeId: "producer>package-small>truck-twice>store",
+      evidenceKeys: ["loss-goes-down", "time-cost-go-up"],
+    },
+    {
+      routeId: "producer>transport-near>store>buyer",
+      evidenceKeys: ["near-wins-time-loss", "far-wins-cost"],
+    },
+    { routeId: "producer>transport>store", dataKeys: ["transport-cost"] },
+  ] as const;
+
+  plans.forEach((plan, index) => {
+    state = solveCurrentMission(state, plan);
+    if (index < plans.length - 1) state = sessionReducer(state, { type: "NEXT" });
+  });
+  return sessionReducer(state, { type: "NEXT" });
+}
+
 function ReportHarness({ initial }: { initial: SessionState }) {
   const [state, dispatch] = useReducer(sessionReducer, initial);
   return <LearningReport state={state} dispatch={dispatch} />;
@@ -88,7 +116,7 @@ describe("LearningReport", () => {
   it("최초 판단과 근거, 다시 정한 결과를 함께 보여 준다", () => {
     render(<ReportHarness initial={strawberryWithRevision()} />);
     expect(screen.getByText("최초 판단")).toBeInTheDocument();
-    expect(screen.getByText(/근거와 함께 경로가 연결됐어요/)).toBeInTheDocument();
+    expect(screen.getByText(/근거와 함께 경로를 기록했어요/)).toBeInTheDocument();
     expect(
       screen.getByText("생산한 다음에 골라 담고, 운송하고, 마지막에 팔아요"),
     ).toBeInTheDocument();
@@ -127,5 +155,15 @@ describe("LearningReport", () => {
     expect(printSpy).toHaveBeenCalledTimes(1);
     await user.click(screen.getByRole("button", { name: "처음부터 다시 하기" }));
     expect(dispatch).toHaveBeenCalledWith({ type: "REQUEST_RESTART" });
+  });
+
+  it("전체 미션을 끝내면 takeaway와 다음 학습 행동을 보여 준다", () => {
+    render(<ReportHarness initial={finishedReportState()} />);
+    expect(
+      screen.getByRole("heading", { level: 2, name: "모든 경로를 살펴봤어요" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/시간·비용·손실을 함께 비교하고/)).toBeInTheDocument();
+    expect(screen.getByText(/주변 상품 하나를 골라/)).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "모든 미션 끝내기" })).not.toBeInTheDocument();
   });
 });

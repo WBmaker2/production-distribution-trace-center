@@ -11,6 +11,11 @@ test.describe("모바일 화면과 축소 모션", () => {
     await page.setViewportSize({ width: 320, height: 568 });
     await page.goto("./");
     expect(await horizontalOverflow(page)).toBeLessThanOrEqual(0);
+    const narrowLayout = await page.evaluate(() => ({
+      bodyWidth: document.body.getBoundingClientRect().width,
+      clientWidth: document.documentElement.clientWidth,
+    }));
+    expect(narrowLayout.bodyWidth).toBeLessThanOrEqual(narrowLayout.clientWidth);
 
     await page.getByRole("button", { name: "경로 추적하기" }).click();
     await page.getByRole("button", { name: "단계 배열하기" }).click();

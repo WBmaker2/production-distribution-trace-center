@@ -12,12 +12,12 @@ import {
 } from "./workbenchSteps";
 
 const STEP_INSTRUCTIONS: Readonly<Record<string, string>> = {
-  OBSERVE: "상품이 어느 단계에서 무엇을 하는지 살펴보고, 토큰의 뜻을 읽어 보세요.",
+  OBSERVE: "상품의 이동 순서와 각 단계에서 하는 일을 살펴보고, 시간·비용·손실 토큰의 뜻을 읽어 보세요.",
   ORDER: "단계 카드를 순서대로 놓아 상품이 이동하는 한 줄 경로를 만들어 보세요.",
-  BASELINE: "만든 경로의 기본 토큰을 표에서 확인하고, 서로 어떤 차이가 있는지 찾아보세요.",
-  CHANGE_ONE: "검수된 조건 중 하나만 바꾼 뒤 경로에 어떤 변화가 생기는지 예상해 보세요.",
-  COMPARE: "바꾸기 전과 후를 나란히 비교하고, 늘거나 줄어든 토큰을 말로 설명해 보세요.",
-  DECIDE: "목표와 근거를 다시 읽고, 지금 기록할 판단과 필요한 자료를 고르세요.",
+  BASELINE: "만든 경로의 시간·비용·손실 토큰을 표에서 확인해 보세요.",
+  CHANGE_ONE: "조건을 하나 고르고, 무엇이 달라질지 먼저 생각해 보세요.",
+  COMPARE: "바꾸기 전과 후를 비교해 시간·비용·손실 토큰 중 무엇이 달라졌는지 말해 보세요.",
+  DECIDE: "목표를 다시 읽고, 판단에 필요한 근거와 자료를 고른 뒤 기록해 보세요.",
 };
 
 interface RouteWorkbenchProps {
@@ -94,7 +94,7 @@ export function RouteWorkbench({ state, dispatch }: RouteWorkbenchProps) {
         {state.step !== "DECIDE" && (
           <ActionButton
             variant="primary"
-            pulse={state.step === "CHANGE_ONE"}
+            pulse={state.step === "CHANGE_ONE" && canGoNext}
             onClick={() => dispatch({ type: "NEXT" })}
             disabled={!canGoNext}
           >

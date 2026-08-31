@@ -74,8 +74,8 @@ function ReportCard({
         <dd>
           {decisionLabel(mission.id, record.decision)} —{" "}
           {progress.firstDecision?.accepted
-            ? "처음 판단이 기록에 통과했어요."
-            : "처음 판단은 기록에 통과하지 않았어요."}
+            ? "처음 정한 내용이 기준에 맞았어요."
+            : "처음 정한 내용이 기준과 달랐어요."}
         </dd>
         <dt>경로</dt>
         <dd>{routeText}</dd>
@@ -93,26 +93,26 @@ function ReportCard({
             "고른 근거가 없어요"
           )}
         </dd>
-        <dt>최종 토큰</dt>
+        <dt>마지막 비교 값</dt>
         <dd>
           시간 {formatToken(record.totals.timeTokens)} · 비용{" "}
-          {formatToken(record.totals.costTokens)} · 잃음 {formatToken(record.totals.lossTokens)}
+          {formatToken(record.totals.costTokens)} · 손실 {formatToken(record.totals.lossTokens)}
         </dd>
         {progress.revisionUsed && (
           <>
             <dt>다시 정한 결과</dt>
             <dd>
               {record.accepted
-                ? "다시 정한 판단이 기록에 통과했어요."
-                : "다시 정했지만 통과하지 못했어요. 그래도 기록은 소중해요."}
+                ? "다시 정한 내용이 기준에 맞았어요."
+                : "다시 정한 내용도 기준과 달랐어요. 기록은 남아요."}
             </dd>
           </>
         )}
       </dl>
       <p className={record.accepted ? "report-result tone-success" : "report-result"}>
         {record.accepted
-          ? "근거와 함께 경로가 연결됐어요."
-          : "이 판단은 검수 규칙과 맞지 않았어요. 기록은 그대로 남아요."}
+          ? "근거와 함께 경로를 기록했어요."
+          : "목표와 근거가 아직 맞지 않아요. 기록은 남아요."}
       </p>
     </li>
   );
@@ -121,12 +121,31 @@ function ReportCard({
 export function LearningReport({ state, dispatch }: LearningReportProps) {
   const mission = currentMission(state);
   return (
-    <section className="learning-report" aria-label={`${mission.title} 유통 기록`}>
+    <section
+      className="learning-report"
+      aria-label={state.finished ? "전체 미션 유통 기록" : `${mission.title} 유통 기록`}
+    >
       <header className="report-intro">
-        <h2>판단의 흔적</h2>
-        <p className="step-hint">
-          채점하지 않아요. 최초 판단과 근거, 수정 결과를 함께 보여 주어요.
-        </p>
+        {state.finished ? (
+          <div className="completion-summary" role="status">
+            <p className="completion-kicker">학습 마무리</p>
+            <h2>모든 경로를 살펴봤어요</h2>
+            <p>
+              <strong>기억할 점:</strong> 경로를 고를 때는 시간·비용·손실을 함께 비교하고,
+              자료가 없으면 먼저 확인해요.
+            </p>
+            <p className="completion-next">
+              다음에는 주변 상품 하나를 골라 생산부터 판매까지의 경로를 직접 적어 보세요.
+            </p>
+          </div>
+        ) : (
+          <>
+            <h2>미션 기록</h2>
+            <p className="step-hint">
+              처음 판단과 근거, 다시 정한 결과를 한곳에 모아 보여 줘요.
+            </p>
+          </>
+        )}
       </header>
       <ol className="report-list">
         {state.progress.map((progress, index) => (
@@ -147,7 +166,7 @@ export function LearningReport({ state, dispatch }: LearningReportProps) {
           <ActionButton variant="primary" onClick={() => dispatch({ type: "NEXT" })}>
             {state.missionIndex + 1 < state.progress.length
               ? "다음 미션 보기"
-              : "전체 기록 마치기"}
+              : "모든 미션 끝내기"}
           </ActionButton>
         )}
       </div>

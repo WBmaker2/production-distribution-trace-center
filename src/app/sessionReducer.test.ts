@@ -257,6 +257,45 @@ describe("세션 reducer — 응답 보존과 수정", () => {
     expect(sessionReducer(revised, { type: "APPEND_CARD", nodeId: "farm" })).toBe(revised);
     expect(sessionReducer(revised, { type: "BACK" })).toBe(revised);
   });
+
+  it("수정 시작 시 이전 근거와 자료 선택을 비워 자연스러운 재시도를 보장한다", () => {
+    let state = createInitialSessionState();
+    for (let index = 0; index < 5; index += 1) {
+      state = solveCurrentMission(state, SOLVE_PLANS[index]!);
+      state = sessionReducer(state, { type: "NEXT" });
+    }
+
+    state = sessionReducer(state, { type: "NEXT" });
+    for (const nodeId of ["producer", "transport", "store"]) {
+      state = sessionReducer(state, { type: "APPEND_CARD", nodeId });
+    }
+    state = sessionReducer(state, { type: "CHECK_CONNECTION" });
+    state = sessionReducer(state, { type: "NEXT" });
+    state = sessionReducer(state, { type: "NEXT" });
+    state = sessionReducer(state, { type: "TOGGLE_DATA", key: "weather-note" });
+
+    const rejected = sessionReducer(state, { type: "SUBMIT_DECISION" });
+    expect(rejected.progress[5]?.selectedDataKeys).toEqual(["weather-note"]);
+
+    const revision = sessionReducer(rejected, { type: "BEGIN_REVISION" });
+    expect(revision.step).toBe("ORDER");
+    expect(revision.progress[5]?.selectedEvidenceKeys).toEqual([]);
+    expect(revision.progress[5]?.selectedDataKeys).toEqual([]);
+
+    let retried = sessionReducer(revision, { type: "RESET_ROUTE" });
+    for (const nodeId of ["producer", "transport", "store"]) {
+      retried = sessionReducer(retried, { type: "APPEND_CARD", nodeId });
+    }
+    retried = sessionReducer(retried, { type: "CHECK_CONNECTION" });
+    retried = sessionReducer(retried, { type: "NEXT" });
+    retried = sessionReducer(retried, { type: "NEXT" });
+    retried = sessionReducer(retried, { type: "TOGGLE_DATA", key: "transport-cost" });
+
+    const completed = sessionReducer(retried, { type: "SUBMIT_DECISION" });
+    expect(completed.step).toBe("REPORT");
+    expect(completed.progress[5]?.selectedDataKeys).toEqual(["transport-cost"]);
+    expect(completed.progress[5]?.finalDecision?.accepted).toBe(true);
+  });
 });
 
 describe("세션 reducer — 미션 진행과 재시작", () => {
