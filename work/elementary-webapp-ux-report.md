@@ -7,7 +7,8 @@
 - 모드: `full`
 - 기준: `$elementary-webapp-ux-orchestrator`의 학생 패널·문구 감사·회복·반응형·수용 게이트
 - VoiceOver: 프로젝트 규칙에 따라 구현·검증하지 않음
-- 커밋·푸시·배포·HVC: 이번 개선 요청에서는 실행하지 않음
+- 커밋·푸시·배포: 완료 (`PR #1`, `main` 병합 및 GitHub Pages 공개)
+- HVC: 사람 검수 후 별도 진행
 
 ## 먼저 확인한 규칙과 계획
 
@@ -80,4 +81,10 @@
 - 자동화·in-app 관찰 게이트: 통과
 - 전체 게이트: `conditional` — 교사·교과 정확성, Safari·실제 기기 검수, 실제 학생 comprehension probe, HVC는 별도 확인 필요
 
-최신 개선 코드는 아직 공개 Pages에 배포되지 않았습니다. 로컬 확인 주소: http://127.0.0.1:4176/production-distribution-trace-center/
+최신 개선 코드는 공개 Pages에 배포되었습니다. [공개 앱 열기](https://wbmaker2.github.io/production-distribution-trace-center/)
+
+- 병합 PR: [#1](https://github.com/WBmaker2/production-distribution-trace-center/pull/1)
+- 병합 커밋: `7ee0135ae940b302e52add28e1c49054ca210948`
+- CI: [33358116282](https://github.com/WBmaker2/production-distribution-trace-center/actions/runs/33358116282)
+- Pages: [33358116208](https://github.com/WBmaker2/production-distribution-trace-center/actions/runs/33358116208)
+- HVC용 로컬 확인 주소: http://127.0.0.1:4176/production-distribution-trace-center/

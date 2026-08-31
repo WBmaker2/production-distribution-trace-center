@@ -66,3 +66,17 @@
 - `src/features/route-trace/workbenchSteps.tsx`, `stepLabels.ts`, `src/styles/workbench.css`: 500줄 이하 제한을 지키기 위해 계획 문서 8의 화면 구성을 분리했다.
 - `scripts/build-assets.mjs`: 생성 자산 재현을 위한 SVG→webp 변환 스크립트 (sharp 사용).
 - store-05에 소비 단계 노드 추가: 계획 문서 4.1 합계는 그대로 유지하면서 단일 종료 DAG 규칙(계획 문서 5)을 충족했다.
+
+## 8. 초등 학습자 UX 후속 릴리스 증거 (2026-08-31)
+
+- 작업 브랜치: `codex/education-ux-20260831`
+- 구현 커밋: `04d017f` (`fix: improve learner UX and recovery`)
+- 문서 커밋: `8ae8795` (`docs: record elementary learner UX review`)
+- 병합 PR: [#1](https://github.com/WBmaker2/production-distribution-trace-center/pull/1), 병합 커밋 `7ee0135ae940b302e52add28e1c49054ca210948`
+- PR 검증: [GitHub Actions 33358036594](https://github.com/WBmaker2/production-distribution-trace-center/actions/runs/33358036594) — `success`
+- `main` 검증: [GitHub Actions 33358116282](https://github.com/WBmaker2/production-distribution-trace-center/actions/runs/33358116282) — `success`, `npm run verify` 통과
+- `main` Pages 배포: [GitHub Actions 33358116208](https://github.com/WBmaker2/production-distribution-trace-center/actions/runs/33358116208) — `success`
+- 공개 앱: [생산·유통 경로 추적소](https://wbmaker2.github.io/production-distribution-trace-center/)
+- 공개 확인: HTTP 200, 문서 제목 `생산·유통 경로 추적소`, JS/CSS/favicon/WebP 각 200, 375px에서 `경로 추적하기` 클릭 후 `별빛 딸기 상자 · 단계 관찰` 진입, `document/body scrollWidth=360`, 콘솔 오류 0건
+- 로컬 브라우저의 기본 5-worker 실행은 macOS Chromium `MachPortRendezvous` 권한 오류로 실행되지 않았으나, 동일 E2E를 single-worker로 데스크톱·모바일 각 8개씩 통과했고 GitHub Actions의 전체 `npm run verify`도 통과했다.
+- 사람 검수: 교사·교과 정확성·Safari/실제 기기·학생 comprehension probe·HVC 등록은 여전히 대기. VoiceOver는 프로젝트 범위에서 제외했다.
