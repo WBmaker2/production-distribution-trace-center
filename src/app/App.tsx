@@ -30,13 +30,15 @@ export function App() {
     if (typeof heading.scrollIntoView === "function") {
       heading.scrollIntoView({ block: "start", behavior: "auto" });
     }
-  }, [state.step, state.missionIndex]);
+  }, [state.step, state.missionIndex, state.finished]);
 
   const mission = currentMission(state);
   const headingText =
     state.step === "INTRO"
       ? "생산·유통 경로 추적소"
-      : `${mission.title} · ${STEP_LABELS[state.step]}`;
+      : state.finished
+        ? "전체 미션 · 학습 마무리"
+        : `${mission.title} · ${STEP_LABELS[state.step]}`;
 
   const flowKeys = [...sessionFlowSteps(mission), "REPORT" as const];
   const currentFlowIndex = flowKeys.indexOf(state.step);

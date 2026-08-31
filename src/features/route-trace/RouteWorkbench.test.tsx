@@ -67,7 +67,9 @@ describe("RouteWorkbench — 관찰 단계", () => {
     render(<Harness initial={delayObserveState()} />);
     expect(screen.getByText("트럭이 다리를 지나 가요")).toBeInTheDocument();
     expect(
-      screen.getByText("상품이 어느 단계에서 무엇을 하는지 살펴보고, 토큰의 뜻을 읽어 보세요."),
+      screen.getByText(
+        "상품의 이동 순서와 각 단계에서 하는 일을 살펴보고, 시간·비용·손실 토큰의 뜻을 읽어 보세요.",
+      ),
     ).toBeInTheDocument();
     expect(screen.getByText("활동 보드")).toBeInTheDocument();
     expect(screen.getByText("자료 없음")).toBeInTheDocument();
@@ -137,6 +139,8 @@ describe("RouteWorkbench — 조건 변경과 전후 비교", () => {
     expect(screen.getByRole("button", { name: "전후 비교 확인" })).toBeDisabled();
     await user.click(screen.getByRole("radio", { name: /다리 점검/ }));
     expect(screen.getByRole("button", { name: "전후 비교 확인" })).toBeEnabled();
+    expect(screen.getByText(/무엇이 달라질지 생각한 뒤/)).toBeInTheDocument();
+    expect(screen.queryByText(/적용 후 합계/)).not.toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "전후 비교 확인" }));
     expect(screen.getAllByText("+3").length).toBeGreaterThan(0);
     expect(screen.getByText("바꾸기 전")).toBeInTheDocument();
@@ -176,7 +180,7 @@ describe("RouteWorkbench — 판단 단계", () => {
     const user = userEvent.setup();
     await goToDecide();
     await user.click(screen.getByRole("button", { name: "판단 기록하기" }));
-    expect(screen.getByText("아직 기록을 통과하지 않았어요")).toBeInTheDocument();
+    expect(screen.getByText("아직 목표와 근거가 맞지 않아요")).toBeInTheDocument();
     expect(screen.queryByText(/정답은/)).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "한 번 다시 정하기" })).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "한 번 다시 정하기" }));
@@ -189,6 +193,6 @@ describe("RouteWorkbench — 판단 단계", () => {
     await user.click(screen.getByRole("checkbox", { name: /총시간 토큰이 3 늘었어요|시간 토큰이 3 늘었어요/ }));
     await user.click(screen.getByRole("checkbox", { name: /자료 없음으로 남아요/ }));
     await user.click(screen.getByRole("button", { name: "판단 기록하기" }));
-    expect(screen.queryByText("아직 기록을 통과하지 않았어요")).not.toBeInTheDocument();
+    expect(screen.queryByText("아직 목표와 근거가 맞지 않아요")).not.toBeInTheDocument();
   });
 });

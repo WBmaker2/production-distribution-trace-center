@@ -89,7 +89,7 @@ export const missions: readonly RouteMission[] = [
       },
     ],
     evidenceOptions: [
-      { key: "warehouse-tradeoff", label: "창고 A는 시간·잃음 토큰이 적고, 창고 B는 비용 토큰이 적어요", forbidden: false },
+      { key: "warehouse-tradeoff", label: "창고 A는 시간·손실 토큰이 적고, 창고 B는 비용 토큰이 적어요", forbidden: false },
       { key: "cheapest-is-best", label: "비용 토큰이 가장 적은 경로가 무조건 좋아요", forbidden: true },
     ],
     missingDataOptions: [],
@@ -123,7 +123,7 @@ export const missions: readonly RouteMission[] = [
         id: "bridge-check",
         kind: "edge",
         label: "다리 점검 (+3 시간 토큰)",
-        description: "다리 점검 때문에 다리를 건너는 운송 구간이 3만큼 더 늦어져요.",
+        description: "다리 점검 때문에 운송 단계의 시간 토큰이 3 늘어나요.",
         targetId: "edge-bridge",
         timeTokensDelta: 3,
         costTokensDelta: 0,
@@ -152,7 +152,7 @@ export const missions: readonly RouteMission[] = [
   {
     id: "route-package-04",
     title: "포장 크기 고르기",
-    scene: "달빛 과자를 큰 상자 하나에 담을까요, 작은 상자 여러 개로 나눌까요? 포장 방법을 바꾸고 시간·비용·잃음 토큰을 비교해 보아요.",
+    scene: "달빛 과자를 큰 상자 하나에 담을까요, 작은 상자 여러 개로 나눌까요? 포장 방법을 바꾸고 시간·비용·손실 토큰을 비교해 보아요.",
     nodes: [
       { id: "producer", kind: "production", label: "공장에서 달빛 과자를 만들어요", timeTokens: 1, costTokens: 1, lossTokens: 0 },
       { id: "package-large", kind: "processing", label: "큰 상자 하나에 가득 담아요", timeTokens: 1, costTokens: 1, lossTokens: 2 },
@@ -172,7 +172,7 @@ export const missions: readonly RouteMission[] = [
     goal: {
       id: "goal-package-04",
       priority: "loss",
-      statement: "잃음 토큰을 줄이고 싶어요. 포장 방식을 바꿔 비교하고 장단점을 함께 기록해 보아요.",
+      statement: "손실 토큰을 줄이고 싶어요. 포장 방식을 바꿔 비교하고 장단점을 함께 기록해 보아요.",
       acceptedRouteIds: ["producer>package-small>truck-twice>store"],
     },
     conditionChanges: [
@@ -206,7 +206,7 @@ export const missions: readonly RouteMission[] = [
       },
     ],
     evidenceOptions: [
-      { key: "loss-goes-down", label: "작은 상자로 나누면 잃음 토큰이 2에서 0으로 줄어요", forbidden: false },
+      { key: "loss-goes-down", label: "작은 상자로 나누면 손실 토큰이 2에서 0으로 줄어요", forbidden: false },
       { key: "time-cost-go-up", label: "대신 시간 토큰은 5→7, 비용 토큰은 4→6으로 늘어요", forbidden: false },
       { key: "small-pack-is-always-best", label: "작은 상자 포장은 언제나 최고예요", forbidden: true },
     ],
@@ -220,7 +220,7 @@ export const missions: readonly RouteMission[] = [
   {
     id: "route-store-05",
     title: "판매 장소 두 곳",
-    scene: "가상 마을 채소 상자를 근처 상점에 팔까요, 먼 시장에 팔까요? 두 경로의 시간·비용·잃음 토큰을 비교해 절충을 설명해 보아요.",
+    scene: "가상 마을 채소 상자를 근처 상점에 팔까요, 먼 시장에 팔까요? 두 경로의 시간·비용·손실 토큰을 비교해 절충을 설명해 보아요.",
     nodes: [
       { id: "producer", kind: "production", label: "마을 농장에서 채소 상자를 만들어요", timeTokens: 1, costTokens: 1, lossTokens: 0 },
       { id: "transport-near", kind: "transport", label: "근처 상점까지 가까운 길로 가요", timeTokens: 2, costTokens: 3, lossTokens: 0 },
@@ -240,7 +240,7 @@ export const missions: readonly RouteMission[] = [
     goal: {
       id: "goal-store-05",
       priority: "balanced",
-      statement: "시간·비용·잃음을 모두 비교해 절충을 설명해 보아요. 목표에 따라 좋은 경로는 달라져요.",
+      statement: "시간·비용·손실 토큰을 모두 비교해 절충을 설명해 보아요. 목표에 따라 좋은 경로는 달라져요.",
       acceptedRouteIds: ["producer>transport-near>store>buyer", "producer>transport-far>market>buyer"],
     },
     conditionChanges: [
@@ -274,8 +274,8 @@ export const missions: readonly RouteMission[] = [
       },
     ],
     evidenceOptions: [
-      { key: "near-wins-time-loss", label: "근처 상점은 시간 토큰(4)과 잃음 토큰(1)이 적어요", forbidden: false },
-      { key: "far-wins-cost", label: "먼 시장은 비용 토큰(3)이 적지만 잃음 토큰이 2로 늘어요", forbidden: false },
+      { key: "near-wins-time-loss", label: "근처 상점은 시간 토큰(4)과 손실 토큰(1)이 적어요", forbidden: false },
+      { key: "far-wins-cost", label: "먼 시장은 비용 토큰(3)이 적지만 손실 토큰이 2로 늘어요", forbidden: false },
       { key: "near-is-always-safe", label: "가까우니까 근처 상점이 항상 좋아요", forbidden: true },
     ],
     missingDataOptions: [],

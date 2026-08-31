@@ -66,9 +66,9 @@ export function ObserveStep({ mission }: { mission: RouteMission }) {
         />
       )}
       <ul className="token-legend" aria-label="토큰 범례">
-        <li><strong>시간</strong> 단계가 걸리는 정도</li>
-        <li><strong>비용</strong> 드는 정도</li>
-        <li><strong>잃음</strong> 줄어드는 정도</li>
+        <li><strong>시간</strong> 그 단계에 걸리는 정도</li>
+        <li><strong>비용</strong> 그 단계에 드는 정도</li>
+        <li><strong>손실</strong> 상품이 줄어드는 정도</li>
       </ul>
       <ul className="stage-cards">
         {mission.nodes.map((node) => (
@@ -78,13 +78,13 @@ export function ObserveStep({ mission }: { mission: RouteMission }) {
             <span className="stage-tokens">
               <TokenText token={node.timeTokens} label="시간" />
               <TokenText token={node.costTokens} label="비용" />
-              <TokenText token={node.lossTokens} label="잃음" />
+              <TokenText token={node.lossTokens} label="손실" />
             </span>
           </li>
         ))}
       </ul>
       <p className="step-hint">
-        토큰은 비교 연습용 가상 숫자예요. 자료 없음은 아직 모른다는 뜻이고, 0이 아니에요.
+        이 숫자는 비교 연습용 가상 토큰이에요. 자료 없음은 아직 모른다는 뜻이고, 0이 아니에요.
       </p>
     </div>
   );
@@ -101,7 +101,7 @@ export function OrderStep({ mission, progress, dispatch }: StepCommonProps) {
         <section className="order-panel route-panel" aria-labelledby="assembled-route-title">
           <h3 id="assembled-route-title">만든 경로</h3>
           {progress.assembledNodeIds.length === 0 ? (
-            <p>아래 카드를 차례로 눌러 경로를 만들어 보아요.</p>
+            <p>남은 단계 카드에서 차례로 골라 경로를 만들어 보아요.</p>
           ) : (
             <ol className="assembled-route">
               {progress.assembledNodeIds.map((nodeId, index) => {
@@ -218,7 +218,7 @@ function TotalsTable({
           <th scope="col">단계</th>
           <th scope="col">시간 토큰</th>
           <th scope="col">비용 토큰</th>
-          <th scope="col">잃음 토큰</th>
+          <th scope="col">손실 토큰</th>
         </tr>
       </thead>
       <tbody>
@@ -231,7 +231,7 @@ function TotalsTable({
               </th>
               <td data-label="시간 토큰">{formatToken(node.timeTokens)}</td>
               <td data-label="비용 토큰">{formatToken(node.costTokens)}</td>
-              <td data-label="잃음 토큰">{formatToken(node.lossTokens)}</td>
+              <td data-label="손실 토큰">{formatToken(node.lossTokens)}</td>
             </tr>
           );
         })}
@@ -241,7 +241,7 @@ function TotalsTable({
           <th scope="row">합계</th>
           <td data-label="시간 토큰">{formatToken(totals.timeTokens)}</td>
           <td data-label="비용 토큰">{formatToken(totals.costTokens)}</td>
-          <td data-label="잃음 토큰">{formatToken(totals.lossTokens)}</td>
+          <td data-label="손실 토큰">{formatToken(totals.lossTokens)}</td>
         </tr>
       </tfoot>
     </table>
@@ -258,8 +258,8 @@ export function BaselineStep({
   return (
     <div className="baseline-step">
       <p className="step-hint">
-        만든 경로의 단계별 토큰이에요. 연결선 토큰은 이 활동에서 0이어서 합계에 변화가
-        없어요.
+        만든 경로의 단계별 토큰이에요. 연결선 토큰은 이 활동에서 0이라 합계에 더해지지
+        않아요.
       </p>
       <TotalsTable
         mission={mission}
@@ -271,15 +271,13 @@ export function BaselineStep({
 }
 
 export function ChangeStep({ mission, progress, dispatch }: StepCommonProps) {
-  const baselineTotals = computeTotals(mission, progress.assembledNodeIds, null);
-  const afterTotals =
-    progress.appliedChangeId === null
-      ? baselineTotals
-      : computeTotals(mission, progress.assembledNodeIds, progress.appliedChangeId);
+  const selectedChange = mission.conditionChanges.find(
+    (change) => change.id === progress.appliedChangeId,
+  );
   return (
     <div className="change-step">
       <fieldset className="choice-fieldset">
-        <legend>검수된 조건 중 딱 한 가지만 바꿔 보아요</legend>
+        <legend>조건을 하나 골라 보세요</legend>
         {mission.conditionChanges.map((change) => (
           <label key={change.id} className="choice-label">
             <input
@@ -306,15 +304,15 @@ export function ChangeStep({ mission, progress, dispatch }: StepCommonProps) {
         </label>
       </fieldset>
       {progress.changeConfirmed && (
-        <FeedbackPanel tone="info" title="바꾼 조건을 적용한 모습">
-          <p>
-            적용 후 합계 — 시간 {formatToken(afterTotals.timeTokens)} · 비용{" "}
-            {formatToken(afterTotals.costTokens)} · 잃음 {formatToken(afterTotals.lossTokens)}
-            {" ("}기본 합계 — 시간 {formatToken(baselineTotals.timeTokens)} · 비용{" "}
-            {formatToken(baselineTotals.costTokens)} · 잃음{" "}
-            {formatToken(baselineTotals.lossTokens)}
-            {")"}
-          </p>
+        <FeedbackPanel tone="info" title="선택했어요">
+          {selectedChange ? (
+            <p>
+              선택한 조건: <strong>{selectedChange.label}</strong>
+            </p>
+          ) : (
+            <p>조건을 바꾸지 않고 그대로 보기로 했어요.</p>
+          )}
+          <p>무엇이 달라질지 생각한 뒤, 아래 버튼을 눌러 전후를 확인해 보세요.</p>
         </FeedbackPanel>
       )}
     </div>
@@ -352,7 +350,7 @@ export function CompareStep({ mission, progress }: Omit<StepCommonProps, "dispat
       diff: diff.costTokens,
     },
     {
-      label: "잃음 토큰",
+      label: "손실 토큰",
       before: before.lossTokens,
       after: after.lossTokens,
       diff: diff.lossTokens,
@@ -383,7 +381,8 @@ export function CompareStep({ mission, progress }: Omit<StepCommonProps, "dispat
         </tbody>
       </table>
       <p className="step-hint">
-        자료 없음은 그대로 자료 없음으로 남아요. 0으로 바꿔서 계산하지 않아요.
+        자료 없음은 값이 없다는 뜻이에요. 0으로 바꾸어 계산하지 않아요. +는 늘어난 양,
+        -는 줄어든 양이에요.
       </p>
     </div>
   );
@@ -400,7 +399,7 @@ export function DecideStep({ mission, progress, dispatch }: StepCommonProps) {
     <div className="decide-step">
       {mission.requiredDataKeys.length > 0 && (
         <fieldset className="choice-fieldset">
-          <legend>부족한 자료를 고르세요 (필요한 것만)</legend>
+          <legend>판단에 필요한 자료를 골라 보세요</legend>
           {listMissingDataChoices(mission).map((option) => (
             <label key={option.key} className="choice-label">
               <input
@@ -422,7 +421,7 @@ export function DecideStep({ mission, progress, dispatch }: StepCommonProps) {
 
       {mission.evidenceOptions.length > 0 && (
         <fieldset className="choice-fieldset">
-          <legend>근거를 고르세요 (하나 이상)</legend>
+          <legend>판단의 근거를 하나 이상 골라 보세요</legend>
           {listEvidenceChoices(mission).map((option) => (
             <label key={option.key} className="choice-label">
               <input
@@ -436,6 +435,10 @@ export function DecideStep({ mission, progress, dispatch }: StepCommonProps) {
         </fieldset>
       )}
 
+      <p className="decision-help">
+        먼저 근거와 자료를 고른 뒤, 아래 버튼을 눌러 판단을 기록해 보세요.
+      </p>
+
       <ActionButton
         variant="primary"
         onClick={() => dispatch({ type: "SUBMIT_DECISION" })}
@@ -445,10 +448,10 @@ export function DecideStep({ mission, progress, dispatch }: StepCommonProps) {
       </ActionButton>
 
       {rejectedFirst && (
-        <FeedbackPanel tone="warning" title="아직 기록을 통과하지 않았어요">
+        <FeedbackPanel tone="warning" title="아직 목표와 근거가 맞지 않아요">
           <p>
             정답을 바로 알려 드리지는 않아요. 목표 카드와 토큰 표를 다시 읽고, 근거를 더
-            모아 한 번 다시 정할 수 있어요.
+            모아 한 번 다시 정해 보세요.
           </p>
           <ActionButton
             variant="secondary"

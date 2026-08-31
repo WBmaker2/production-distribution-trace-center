@@ -97,7 +97,7 @@ describe("런타임 경계 — 네트워크와 저장 금지", () => {
       screen.getByRole("checkbox", { name: /생산한 다음에 골라 담고/ }),
     );
     await user.click(screen.getByRole("button", { name: "판단 기록하기" }));
-    expect(screen.getByText(/근거와 함께 경로가 연결됐어요/)).toBeInTheDocument();
+    expect(screen.getByText(/근거와 함께 경로를 기록했어요/)).toBeInTheDocument();
     expect(networkCalls).toEqual([]);
   });
 
@@ -149,7 +149,7 @@ describe("런타임 경계 — 네트워크와 저장 금지", () => {
         await user.click(screen.getByRole("checkbox", { name: /생산한 다음에 골라 담고/ }));
       } else {
         await user.click(screen.getByRole("button", { name: "판단하기" }));
-        await user.click(screen.getByRole("checkbox", { name: /창고 A는 시간·잃음 토큰이 적고/ }));
+        await user.click(screen.getByRole("checkbox", { name: /창고 A는 시간·손실 토큰이 적고/ }));
       }
       await user.click(screen.getByRole("button", { name: "판단 기록하기" }));
     }

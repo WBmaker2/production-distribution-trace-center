@@ -12,7 +12,7 @@ export function EntranceScreen({ onStart }: EntranceScreenProps) {
       <div className="entrance-intro">
         <p className="entrance-lead">
           상품이 우리 손에 오기까지 여러 단계를 지나가요. <strong>생산·가공·운송·판매·소비 단계</strong>를
-          연결하고, 한 조건이 바뀔 때 시간·비용·잃음 토큰이 어떻게 달라지는지 추적해 보아요.
+          연결하고, 한 조건이 바뀔 때 시간·비용·손실 토큰이 어떻게 달라지는지 추적해 보아요.
         </p>
         <div className="entrance-cta">
           <ActionButton variant="primary" pulse onClick={onStart}>
@@ -39,7 +39,7 @@ export function EntranceScreen({ onStart }: EntranceScreenProps) {
         <ul className="entrance-facts" aria-label="활동 정보">
           <li><strong>예상 시간</strong><span>20~30분</span></li>
           <li><strong>응답 저장</strong><span>저장하지 않아요. 새로고침하면 지금까지 기록이 사라져요.</span></li>
-          <li><strong>미션</strong><span>검수된 미션 6개</span></li>
+          <li><strong>미션</strong><span>미션 6개</span></li>
         </ul>
       </div>
       <section className="entrance-journey" aria-labelledby="mission-index-title">

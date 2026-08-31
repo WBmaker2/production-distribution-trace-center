@@ -72,7 +72,7 @@ async function decideAccepted(page: Page, evidence: readonly RegExp[]) {
     await page.getByRole("checkbox", { name: label }).check();
   }
   await page.getByRole("button", { name: "판단 기록하기" }).click();
-  await expect(page.getByText(/근거와 함께 경로가 연결됐어요/).first()).toBeVisible();
+  await expect(page.getByText(/근거와 함께 경로를 기록했어요/).first()).toBeVisible();
 }
 
 async function nextMission(page: Page) {
@@ -89,7 +89,7 @@ async function keepConditionAndDecide(page: Page, evidence: readonly RegExp[]) {
     await page.getByRole("checkbox", { name: label }).check();
   }
   await page.getByRole("button", { name: "판단 기록하기" }).click();
-  await expect(page.getByText(/근거와 함께 경로가 연결됐어요/).first()).toBeVisible();
+  await expect(page.getByText(/근거와 함께 경로를 기록했어요/).first()).toBeVisible();
 }
 
 test.describe("학습자 흐름", () => {
@@ -114,7 +114,7 @@ test.describe("학습자 흐름", () => {
       await decideAccepted(page, [/생산한 다음에 골라 담고/]);
       await nextMission(page);
       await assembleAndCheck(page, cards);
-      await decideAccepted(page, [/창고 A는 시간·잃음 토큰이 적고/]);
+      await decideAccepted(page, [/창고 A는 시간·손실 토큰이 적고/]);
       await expect(page.getByRole("heading", { level: 1 })).toContainText("유통 기록");
       await context.close();
     }
@@ -126,7 +126,7 @@ test.describe("학습자 흐름", () => {
     await decideAccepted(page, [/생산한 다음에 골라 담고/]);
     await nextMission(page);
     await assembleAndCheck(page, NOTEBOOK_A);
-    await decideAccepted(page, [/창고 A는 시간·잃음 토큰이 적고/]);
+      await decideAccepted(page, [/창고 A는 시간·손실 토큰이 적고/]);
     await nextMission(page);
     await assembleAndCheck(page, DELAY);
     await expect(page.getByText("자료 없음").first()).toBeVisible();
@@ -138,7 +138,7 @@ test.describe("학습자 흐름", () => {
     await page.getByRole("checkbox", { name: /총시간 토큰이 3 늘었어요/ }).check();
     await page.getByRole("checkbox", { name: /자료 없음으로 남아요/ }).check();
     await page.getByRole("button", { name: "판단 기록하기" }).click();
-    await expect(page.getByText(/근거와 함께 경로가 연결됐어요/).first()).toBeVisible();
+    await expect(page.getByText(/근거와 함께 경로를 기록했어요/).first()).toBeVisible();
   });
 
   test("정보 부족 미션: 잘못된 자료는 거부되고 운송비 자료 요청만 통과한다", async ({ page }) => {
@@ -147,7 +147,7 @@ test.describe("학습자 흐름", () => {
     await decideAccepted(page, [/생산한 다음에 골라 담고/]);
     await nextMission(page);
     await assembleAndCheck(page, NOTEBOOK_A);
-    await decideAccepted(page, [/창고 A는 시간·잃음 토큰이 적고/]);
+    await decideAccepted(page, [/창고 A는 시간·손실 토큰이 적고/]);
     await nextMission(page);
     await assembleAndCheck(page, DELAY);
     await page.getByRole("button", { name: "조건 바꾸기" }).click();
@@ -159,7 +159,7 @@ test.describe("학습자 흐름", () => {
     await page.getByRole("button", { name: "판단 기록하기" }).click();
     await nextMission(page);
     await assembleAndCheck(page, PACKAGE_SMALL);
-    await keepConditionAndDecide(page, [/잃음 토큰이 2에서 0으로 줄어요/, /시간 토큰은 5→7/]);
+    await keepConditionAndDecide(page, [/손실 토큰이 2에서 0으로 줄어요/, /시간 토큰은 5→7/]);
     await nextMission(page);
     await assembleAndCheck(page, STORE_NEAR);
     await keepConditionAndDecide(page, [/근처 상점은 시간 토큰/, /먼 시장은 비용 토큰/]);
@@ -168,7 +168,7 @@ test.describe("학습자 흐름", () => {
     await page.getByRole("button", { name: "판단하기" }).click();
     await page.getByRole("checkbox", { name: "날씨 기록 자료" }).check();
     await page.getByRole("button", { name: "판단 기록하기" }).click();
-    await expect(page.getByText("아직 기록을 통과하지 않았어요")).toBeVisible();
+    await expect(page.getByText("아직 목표와 근거가 맞지 않아요")).toBeVisible();
     await page.getByRole("button", { name: "한 번 다시 정하기" }).click();
     // 수정 단계에서는 이미 경로 조립 화면이고 이전 경로가 보존되어 있다.
     await page.getByRole("button", { name: "다시 만들기" }).click();
@@ -179,7 +179,11 @@ test.describe("학습자 흐름", () => {
     await page.getByRole("button", { name: "판단하기" }).click();
     await page.getByRole("checkbox", { name: "운송비 자료" }).check();
     await page.getByRole("button", { name: "판단 기록하기" }).click();
-    await expect(page.getByText(/근거와 함께 경로가 연결됐어요/).first()).toBeVisible();
+    await expect(page.getByText(/근거와 함께 경로를 기록했어요/).first()).toBeVisible();
+    await page.getByRole("button", { name: "모든 미션 끝내기" }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("전체 미션 · 학습 마무리");
+    await expect(page.getByRole("heading", { level: 2, name: "모든 경로를 살펴봤어요" })).toBeVisible();
+    await expect(page.getByText(/주변 상품 하나를 골라/)).toBeVisible();
     await expect(page.getByText("다시 정한 결과", { exact: true })).toBeVisible();
   });
 });
